@@ -1,14 +1,24 @@
 //jeff palmer
 var runningTotal = 0.0;
+var preTax = "preTax";
 
-function calculateReceipt() {
+function calculateReceipt()
+{
   var receiptSubtotal = getCookie(preTax);
-  reciptSubtotal = Number(receiptSubtotal);
+//  reciptSubtotal = Number(receiptSubtotal);
   var receiptTax = (receiptSubtotal * 0.075);
-  var receiptTotal = (preTax + receiptTax);
-  document.getElementById("sub").innerHTML=asCurrency(receiptSubtotal);
-  document.getElementById("tax").innerHTML=asCurrency(receiptTax);
-  document.getElementById("tot").innerHTML=asCurrency(receiptTotal);
+  var receiptTotal = getCookie(preTax);
+  receiptTotal = (Number(receiptTotal) + Number(receiptTax));
+  var rs = Number(receiptSubtotal);
+  var rtax = Number(receiptTax);
+  var rtotal = Number(receiptTotal);
+  receiptSubtotal = asCurrency(rs);
+  receiptTax = asCurrency(rtax);
+  receiptTotal = asCurrency(rtotal);
+  document.getElementById("sub").innerHTML=receiptSubtotal;
+  document.getElementById("tax").innerHTML=receiptTax;
+  document.getElementById("tot").innerHTML=receiptTotal;
+  setCookie(preTax, runningTotal, 0);
 }
 
 function addItem()
@@ -21,13 +31,12 @@ function addItem()
     window.alert ("Enter price as a number");
   } else {
     newItem = Number(newItem);
-    runningTotal = runningTotal + newItem;
+    runningTotal = (runningTotal + newItem);
     var dollars = asCurrency(runningTotal);
-
     document.getElementById("subtotal").innerHTML=dollars;
     newItem = document.getElementById("price").value = "";
-    setCookie(preTax, runningTotal, 0);
-  }
+    setCookie(preTax, runningTotal, 1);
+}
 
   //OTHERWISE,
   // update newItem to its value cast as a number
